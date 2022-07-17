@@ -24,16 +24,6 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
         this.mongoTemplate = mongoTemplate;
     }
 
-    /**
-     * Find the recipe/s by multiple criteria
-     *
-     * @param instructions
-     * @param numberOfServing
-     * @param ingredientIncluded
-     * @param ingredientExcluded
-     * @param isVegetarian
-     * @return
-     */
     public List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian) {
         Query query = new Query();
         if (StringUtils.isNotEmpty(instructions)) {

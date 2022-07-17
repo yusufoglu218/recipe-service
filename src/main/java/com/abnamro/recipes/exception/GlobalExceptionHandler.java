@@ -8,6 +8,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
+/**
+ * Exception handler to handle custom exception and set error details
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
