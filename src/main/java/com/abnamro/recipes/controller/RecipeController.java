@@ -63,9 +63,8 @@ public class RecipeController {
             @ApiResponse(responseCode = "500", description = "Internal Error", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Exception.class))})
     })
     @GetMapping("{id}")
-    public ResponseEntity<Recipe> getRecipeById(@Parameter(description = "Id of the recipe") @PathVariable String id) {
-        Recipe recipe = recipeService.getRecipeById(id);
-        return ResponseEntity.ok(recipe);
+    public Recipe getRecipeById(@Parameter(description = "Id of the recipe") @PathVariable String id) {
+        return recipeService.getRecipeById(id);
     }
 
     @Operation(summary = "Get the recipe by id")
@@ -98,12 +97,11 @@ public class RecipeController {
             @ApiResponse(responseCode = "500", description = "Internal Error", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Exception.class))})
     })
     @PutMapping("{id}")
-    public ResponseEntity<Recipe> updateRecipeById(
+    public Recipe updateRecipeById(
             @Parameter(description = "Id of the recipe") @PathVariable String id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Recipe object to save with json format") @RequestBody Recipe recipeDetails) {
 
-        Recipe updateRecipe = recipeService.updateRecipe(id, recipeDetails);
-        return ResponseEntity.ok(updateRecipe);
+        return recipeService.updateRecipe(id, recipeDetails);
     }
 
 
