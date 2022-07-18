@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -40,14 +42,14 @@ public class RecipeControllerIntegrationTest {
         return "http://localhost:" + port + "/api/v1/recipes/";
     }
 
-    private String recipeIdToDelete;
-    private String recipeIdToUpdate;
-    private String recipeIdToSave;
+    private Recipe recipeMock;
+
 
     @BeforeAll
-    public void createRecipeOnDatabase() {
-        recipeIdToDelete = recipeService.saveRecipe(TestUtil.createMockRecipeForDelete()).getId();
-        recipeIdToUpdate = recipeService.saveRecipe(TestUtil.createMockRecipeForUpdate()).getId();
+    public void createRecipeObjectOnInit() {
+        recipeMock = TestUtil.createMockRecipe();
+        recipeService.saveRecipe(TestUtil.createMockRecipeForDelete());
+        recipeService.saveRecipe(TestUtil.createMockRecipe());
     }
 
     @Test
@@ -58,7 +60,6 @@ public class RecipeControllerIntegrationTest {
         parameters.put("ingredientExcluded", "ingredientxx");
         parameters.put("isVegetarian", false);
         parameters.put("numberOfServing", 3);
-
 
         ResponseEntity<Recipe[]> responseEntity = restTemplate.getForEntity(
                 getRecipeUrl() + "?" +
@@ -72,57 +73,82 @@ public class RecipeControllerIntegrationTest {
 
         assertTrue(responseEntity.getBody() != null);
         assertTrue(responseEntity.getStatusCode().equals(HttpStatus.OK));
+        assertEquals(responseEntity.getBody()[0], recipeMock);
+    }
 
-        Recipe recipe = responseEntity.getBody()[0];
+    @Test
+    public void getRecipeByMultipleParameter_NOT_FOUND() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("instructionsLike", "update");
+        parameters.put("ingredientIncluded", "test ingredient");
+        parameters.put("isVegetarian", true);
+        parameters.put("numberOfServing", 3);
 
-        assertEquals(recipe.getInstructions(), TestConstants.INSTRUCTIONS_TO_UPDATE);
-        assertEquals(recipe.getNumberOfServing(), TestConstants.NUMBER_OF_SERVING_TO_UPDATE);
+        ResponseEntity<Recipe[]> responseEntity = restTemplate.getForEntity(
+                getRecipeUrl() + "?" +
+                        "instructionsLike={instructionsLike}&" +
+                        "numberOfServing={numberOfServing}&" +
+                        "ingredientIncluded={ingredientIncluded}&" +
+                        "isVegetarian={isVegetarian}",
+                Recipe[].class,
+                parameters);
 
+        assertTrue(responseEntity.getStatusCode().equals(HttpStatus.OK));
+        assertEquals(responseEntity.getBody().length, 0);
     }
 
     @Test
     public void getRecipeById_OK() {
-        ResponseEntity<Recipe> responseEntity = restTemplate.getForEntity(getRecipeUrl() + recipeIdToUpdate, Recipe.class);
+        ResponseEntity<Recipe> responseEntity = restTemplate.getForEntity(getRecipeUrl() + TestConstants.RECIPE_ID, Recipe.class);
 
         assertTrue(responseEntity.getBody() != null);
         assertTrue(responseEntity.getStatusCode().equals(HttpStatus.OK));
-        assertEquals(responseEntity.getBody().getInstructions(), TestConstants.INSTRUCTIONS_TO_UPDATE);
+        assertEquals(responseEntity.getBody(), recipeMock);
     }
 
     @Test
-    public void getDeleteById_OK() {
-        restTemplate.delete(getRecipeUrl() + recipeIdToDelete);
-        ResponseEntity<Recipe> responseEntity = restTemplate.getForEntity(getRecipeUrl() + recipeIdToDelete, Recipe.class);
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
+    public void getRecipeById_NOT_FOUND() {
+        ResponseEntity<Recipe> responseEntity = restTemplate.getForEntity(getRecipeUrl() + "111", Recipe.class);
+        assertTrue(responseEntity.getStatusCode().equals(HttpStatus.NOT_FOUND));
     }
 
     @Test
-    public void getCreateRecipe_OK() {
-        ResponseEntity<Recipe> responseEntity = restTemplate.postForEntity(getRecipeUrl(), TestUtil.createMockRecipeForUpdate(), Recipe.class);
-        recipeIdToSave = responseEntity.getBody().getId();
+    public void deleteRecipeById_OK() {
+        ResponseEntity<HttpStatus> responseEntity = restTemplate.exchange(getRecipeUrl() + "{id}", HttpMethod.DELETE, null, HttpStatus.class, TestConstants.RECIPE_ID_TO_DELETE);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    public void deleteRecipeById_NOT_FOUND() {
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(getRecipeUrl() + "{id}", HttpMethod.DELETE, null, Object.class, "111");
+        assertTrue(responseEntity.getStatusCode().equals(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    public void createRecipe_OK() {
+        ResponseEntity<Recipe> responseEntity = restTemplate.postForEntity(getRecipeUrl(), TestUtil.createMockRecipe(), Recipe.class);
 
         assertTrue(responseEntity.getBody() != null);
         assertTrue(responseEntity.getStatusCode().equals(HttpStatus.OK));
-        assertEquals(responseEntity.getBody().getInstructions(), TestConstants.INSTRUCTIONS_TO_UPDATE);
-        assertEquals(responseEntity.getBody().getNumberOfServing(), TestConstants.INSTRUCTIONS_TO_UPDATE);
-
+        assertEquals(responseEntity.getBody(), recipeMock);
     }
 
     @Test
-    public void getUpdateRecipe_OK() {
-        Recipe recipeToUpdate = TestUtil.createMockRecipeForUpdate();
-
-        restTemplate.put(getRecipeUrl() + recipeIdToUpdate, recipeToUpdate);
-        ResponseEntity<Recipe> responseEntity = restTemplate.getForEntity(getRecipeUrl() + recipeIdToUpdate, Recipe.class);
+    public void updateRecipe_OK() {
+        HttpEntity<Recipe> requestEntity = new HttpEntity<>(recipeMock);
+        ResponseEntity<Recipe> responseEntity = restTemplate.exchange(getRecipeUrl() + TestConstants.RECIPE_ID, HttpMethod.PUT, requestEntity, Recipe.class);
 
         assertTrue(responseEntity.getBody() != null);
         assertTrue(responseEntity.getStatusCode().equals(HttpStatus.OK));
-
-        Recipe recipeUpdated = responseEntity.getBody();
-
-        assertEquals(recipeUpdated.getInstructions(), recipeToUpdate.getInstructions());
-        assertEquals(recipeUpdated.getNumberOfServing(), recipeToUpdate.getNumberOfServing());
+        assertEquals(responseEntity.getBody(), recipeMock);
     }
 
+    @Test
+    public void updateRecipe_NOT_FOUND() {
+        HttpEntity<Recipe> requestEntity = new HttpEntity<>(recipeMock);
+        ResponseEntity<Recipe> responseEntity = restTemplate.exchange(getRecipeUrl() + "111", HttpMethod.PUT, requestEntity, Recipe.class);
+
+        assertTrue(responseEntity.getStatusCode().equals(HttpStatus.NOT_FOUND));
+    }
 
 }
