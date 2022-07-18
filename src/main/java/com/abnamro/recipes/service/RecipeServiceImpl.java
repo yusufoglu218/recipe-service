@@ -1,5 +1,6 @@
 package com.abnamro.recipes.service;
 
+import com.abnamro.recipes.exception.ErrorType;
 import com.abnamro.recipes.exception.RecordNotFoundException;
 import com.abnamro.recipes.model.Recipe;
 import com.abnamro.recipes.repository.RecipeRepository;
@@ -34,7 +35,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe updateRecipe(String id, Recipe recipeDetails) {
-        Recipe recipeFromDb = recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Recipe not exist with id: " + id));
+        Recipe recipeFromDb = recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(ErrorType.RECIPE_NOT_FOUND + id));
 
         recipeFromDb.setInstructions(recipeDetails.getInstructions());
         recipeFromDb.setNumberOfServing(recipeDetails.getNumberOfServing());
@@ -45,13 +46,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void deleteRecipeById(String id) {
-        recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Recipe not exist with id: " + id));
+        recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(ErrorType.RECIPE_NOT_FOUND + id));
         recipeRepository.deleteById(id);
     }
 
     @Override
     public Recipe getRecipeById(String id) {
-        return recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Recipe not exist with id: " + id));
+        return recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(ErrorType.RECIPE_NOT_FOUND + id));
     }
 
 
