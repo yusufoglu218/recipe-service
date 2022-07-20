@@ -52,11 +52,11 @@ Run jar file from below path with given command
 
 |HTTP Method|URL|Description|
 |---|---|---|
-|`POST`|http://localhost:8080/recipes | Create new Recipe |
-|`PUT`|http://localhost:8080/recipes/{id} | Update Recipe by ID |
-|`GET`|http://localhost:8080/recipes/{id} | Get Recipe by ID |
-|`DELETE`|http://localhost:8080/recipes/{id} | Delete Recipe by ID |
-|`GET`|http://localhost:8080/recipes?instructionsLike={instructionsLike}&numberOfServing={numberOfServing}&ingredientIncluded={ingredientIncluded}&ingredientExcluded={ingredientExcluded}&isVegetarian={isVegetarian}&pageNumber={pageNumber}&pageSize={pageSize} | Get Recipes by criteria with Paging.If there is no criteria then all recipes will be returned.|
+|`POST`|http://localhost:8080/api/v1/recipes | Create new Recipe |
+|`PUT`|http://localhost:8080/api/v1/recipes/{id} | Update Recipe by ID |
+|`GET`|http://localhost:8080/api/v1/recipes/{id} | Get Recipe by ID |
+|`DELETE`|http://localhost:8080/api/v1//recipes/{id} | Delete Recipe by ID |
+|`GET`|http://localhost:8080/api/v1/recipes?instructionsLike={instructionsLike}&numberOfServing={numberOfServing}&ingredientIncluded={ingredientIncluded}&ingredientExcluded={ingredientExcluded}&isVegetarian={isVegetarian}&pageNumber={pageNumber}&pageSize={pageSize} | Get Recipes by criteria with Paging.If there is no criteria then all recipes will be returned.|
 
 #### Request Body sample for post and put operations  
     ```
