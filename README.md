@@ -67,7 +67,7 @@ Run jar file from below path with given command
       "ingredients": [
             {
             "name": "chicken",
-            "vegetarian": true
+            "vegetarian": false
             },
             {
             "name": "onion",
