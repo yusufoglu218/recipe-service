@@ -41,7 +41,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @Operation(summary = "Get recipe/s by multiple criteria")
+    @Operation(summary = "Get recipes by one or more criteria.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Recipe.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Error", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Exception.class))})
@@ -52,8 +52,8 @@ public class RecipeController {
                                    @Parameter(description = "Ingredient value exists in the recipe") @RequestParam(required = false) String ingredientIncluded,
                                    @Parameter(description = "Ingredient value not exist in the recipe") @RequestParam(required = false) String ingredientExcluded,
                                    @Parameter(description = "IsVegetarian value of the recipe") @RequestParam(required = false) Boolean isVegetarian,
-                                   @Parameter(description = "Index of page") @RequestParam Integer pageNumber,
-                                   @Parameter(description = "Size of records in the page") @RequestParam Integer pageSize) {
+                                   @Parameter(description = "Index of page") @RequestParam(defaultValue = "0") Integer pageNumber,
+                                   @Parameter(description = "Size of records in the page") @RequestParam(defaultValue = "10") Integer pageSize) {
 
         return recipeService.getRecipeByCriteria(instructionsLike, numberOfServing, ingredientIncluded, ingredientExcluded, isVegetarian, pageNumber, pageSize);
     }
