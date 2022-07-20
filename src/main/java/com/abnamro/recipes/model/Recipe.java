@@ -16,6 +16,7 @@ import java.util.List;
 public class Recipe {
     @Id
     private String id;
+    private String name;
     private String instructions;
     private int numberOfServing;
     private List<Ingredient> ingredients;
