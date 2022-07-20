@@ -35,6 +35,7 @@ Run jar file from below path with given command
 
    public class Ingredient {
       private String name;
+      private String amount;
       boolean isVegetarian;
    }
    ```
@@ -67,14 +68,17 @@ Run jar file from below path with given command
       "ingredients": [
             {
             "name": "chicken",
+            "amount": "100g",
             "vegetarian": false
             },
             {
             "name": "onion",
+            "amount": "2",
             "vegetarian": true
             },
             {
             "name": "potatoes",
+            "amount": "1",
             "vegetarian": true
             }
          ]
