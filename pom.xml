@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.abnamro</groupId>
-	<artifactId>recipes</artifactId>
+	<artifactId>recipe-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>recipes</name>
+	<name>recipe-service</name>
 	<description>Rest api for recipes</description>
 
 	<properties>
