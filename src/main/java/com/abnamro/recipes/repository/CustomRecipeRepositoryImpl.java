@@ -27,7 +27,7 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
     public List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian) {
         Query query = new Query();
         if (StringUtils.isNotEmpty(instructions)) {
-            query.addCriteria(Criteria.where("instructions").regex(instructions));
+            query.addCriteria(Criteria.where("instructions").regex(instructions,"i"));
         }
         if (null != numberOfServing) {
             query.addCriteria(Criteria.where("numberOfServing").is(numberOfServing));
