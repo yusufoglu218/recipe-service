@@ -3,6 +3,9 @@ package com.abnamro.recipes.repository;
 import com.abnamro.recipes.model.Recipe;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,10 +27,15 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian) {
-        Query query = new Query();
+    public List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
+
+        Query query = new Query().with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+
         if (StringUtils.isNotEmpty(instructions)) {
-            query.addCriteria(Criteria.where("instructions").regex(instructions,"i"));
+            query.addCriteria(Criteria.where("instructions").regex(instructions, "i"));
         }
         if (null != numberOfServing) {
             query.addCriteria(Criteria.where("numberOfServing").is(numberOfServing));

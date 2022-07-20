@@ -19,5 +19,5 @@ public interface CustomRecipeRepository {
      * @param isVegetarian
      * @return
      */
-    List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian);
+    List<Recipe> findByMultipleParameters(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian, Integer pageNumber, Integer pageSize );
 }

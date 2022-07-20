@@ -2,6 +2,7 @@ package com.abnamro.recipes.service;
 
 
 import com.abnamro.recipes.model.Recipe;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface RecipeService {
      * @param isVegetarian
      * @return
      */
-    List<Recipe> getRecipeByCriteria(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian);
+    List<Recipe> getRecipeByCriteria(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian, Integer pageNumber, Integer pageSize);
 
     /**
      * Get recipe by id

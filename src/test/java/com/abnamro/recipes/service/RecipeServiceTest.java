@@ -36,18 +36,16 @@ public class RecipeServiceTest {
 
     private Recipe recipeMock;
 
-
     @BeforeAll
     public void createRecipeObjectOnInit() {
         recipeMock = TestUtil.createMockRecipe();
     }
 
-
     @Test
     public void getRecipeByMultipleParameter_OK() {
-        when(recipeRepository.findByMultipleParameters(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyString(), Mockito.any())).thenReturn(List.of(recipeMock));
+        when(recipeRepository.findByMultipleParameters(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyString(), Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(List.of(recipeMock));
 
-        List<Recipe> recipeList = recipeService.getRecipeByCriteria(TestConstants.RECIPE_ID, TestConstants.NUMBER_OF_SERVING, TestConstants.INGREDIENT_NAME, TestConstants.INGREDIENT_NAME, TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE);
+        List<Recipe> recipeList = recipeService.getRecipeByCriteria(TestConstants.RECIPE_ID, TestConstants.NUMBER_OF_SERVING, TestConstants.INGREDIENT_NAME, TestConstants.INGREDIENT_NAME, TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE, TestConstants.PAGE_NUMBER, TestConstants.PAGE_SIZE);
 
         Assertions.assertNotNull(recipeList);
         Assertions.assertEquals(recipeList.get(0), recipeMock);

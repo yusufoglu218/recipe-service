@@ -15,6 +15,12 @@ public class TestConstants {
     public static final Integer NUMBER_OF_SERVING_TO_UPDATE = 3;
 
     public static final String INGREDIENT_NAME = "test ingredient";
+    public static final String INGREDIENT_NAME_EXCLUDED = "ingredientxyz";
+
     public static final Boolean INGREDIENT_IS_VEGETARIAN_TRUE = true;
     public static final Boolean INGREDIENT_IS_VEGETARIAN_FALSE = false;
+
+    public static final Integer PAGE_NUMBER = 0;
+    public static final Integer PAGE_SIZE = 1;
+
 }

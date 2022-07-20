@@ -5,6 +5,8 @@ import com.abnamro.recipes.exception.RecordNotFoundException;
 import com.abnamro.recipes.model.Recipe;
 import com.abnamro.recipes.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getRecipeByCriteria(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian) {
-        return recipeRepository.findByMultipleParameters(instructions, numberOfServing, ingredientIncluded, ingredientExcluded, isVegetarian);
+    public List<Recipe> getRecipeByCriteria(String instructions, Integer numberOfServing, String ingredientIncluded, String ingredientExcluded, Boolean isVegetarian, Integer pageNumber, Integer pageSize) {
+        return recipeRepository.findByMultipleParameters(instructions, numberOfServing, ingredientIncluded, ingredientExcluded, isVegetarian, pageNumber, pageSize);
     }
 
     @Override

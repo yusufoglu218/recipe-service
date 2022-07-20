@@ -55,11 +55,13 @@ public class RecipeControllerIntegrationTest {
     @Test
     public void getRecipeByMultipleParameter_OK() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("instructionsLike", "update");
-        parameters.put("ingredientIncluded", "test ingredient");
-        parameters.put("ingredientExcluded", "ingredientxx");
-        parameters.put("isVegetarian", false);
-        parameters.put("numberOfServing", 3);
+        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS_TO_UPDATE);
+        parameters.put("ingredientIncluded", TestConstants.INGREDIENT_NAME);
+        parameters.put("ingredientExcluded", TestConstants.INGREDIENT_NAME_EXCLUDED);
+        parameters.put("isVegetarian", TestConstants.INGREDIENT_IS_VEGETARIAN_FALSE);
+        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING_TO_UPDATE);
+        parameters.put("pageNumber", TestConstants.PAGE_NUMBER);
+        parameters.put("pageSize", TestConstants.PAGE_SIZE);
 
         ResponseEntity<Recipe[]> responseEntity = restTemplate.getForEntity(
                 getRecipeUrl() + "?" +
@@ -67,7 +69,9 @@ public class RecipeControllerIntegrationTest {
                         "numberOfServing={numberOfServing}&" +
                         "ingredientIncluded={ingredientIncluded}&" +
                         "ingredientExcluded={ingredientExcluded}&" +
-                        "isVegetarian={isVegetarian}",
+                        "isVegetarian={isVegetarian}&"+
+                        "pageNumber={pageNumber}&" +
+                        "pageSize={pageSize}",
                 Recipe[].class,
                 parameters);
 
@@ -79,17 +83,22 @@ public class RecipeControllerIntegrationTest {
     @Test
     public void getRecipeByMultipleParameter_NOT_FOUND() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("instructionsLike", "update");
-        parameters.put("ingredientIncluded", "test ingredient");
-        parameters.put("isVegetarian", true);
-        parameters.put("numberOfServing", 3);
+        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS_TO_UPDATE);
+        parameters.put("ingredientIncluded", TestConstants.INGREDIENT_NAME);
+        parameters.put("ingredientExcluded", TestConstants.INGREDIENT_NAME_EXCLUDED);
+        parameters.put("isVegetarian", TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE);
+        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING_TO_UPDATE);
+        parameters.put("pageNumber", TestConstants.PAGE_NUMBER);
+        parameters.put("pageSize", TestConstants.PAGE_SIZE);
 
         ResponseEntity<Recipe[]> responseEntity = restTemplate.getForEntity(
                 getRecipeUrl() + "?" +
                         "instructionsLike={instructionsLike}&" +
                         "numberOfServing={numberOfServing}&" +
                         "ingredientIncluded={ingredientIncluded}&" +
-                        "isVegetarian={isVegetarian}",
+                        "isVegetarian={isVegetarian}&"+
+                        "pageNumber={pageNumber}&" +
+                        "pageSize={pageSize}",
                 Recipe[].class,
                 parameters);
 
