@@ -51,9 +51,11 @@ public class RecipeController {
                                    @Parameter(description = "NumberOfServing value of the recipe") @RequestParam(required = false) Integer numberOfServing,
                                    @Parameter(description = "Ingredient value exists in the recipe") @RequestParam(required = false) String ingredientIncluded,
                                    @Parameter(description = "Ingredient value not exist in the recipe") @RequestParam(required = false) String ingredientExcluded,
-                                   @Parameter(description = "IsVegetarian value of the recipe") @RequestParam(required = false) Boolean isVegetarian) {
+                                   @Parameter(description = "IsVegetarian value of the recipe") @RequestParam(required = false) Boolean isVegetarian,
+                                   @Parameter(description = "Index of page") @RequestParam Integer pageNumber,
+                                   @Parameter(description = "Size of records in the page") @RequestParam Integer pageSize) {
 
-        return recipeService.getRecipeByCriteria(instructionsLike, numberOfServing, ingredientIncluded, ingredientExcluded, isVegetarian);
+        return recipeService.getRecipeByCriteria(instructionsLike, numberOfServing, ingredientIncluded, ingredientExcluded, isVegetarian, pageNumber, pageSize);
     }
 
     @Operation(summary = "Get the recipe by id")
