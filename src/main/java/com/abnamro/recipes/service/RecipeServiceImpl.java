@@ -39,6 +39,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe updateRecipe(String id, Recipe recipeDetails) {
         Recipe recipeFromDb = recipeRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(ErrorType.RECIPE_NOT_FOUND + id));
 
+        recipeFromDb.setName(recipeDetails.getName());
         recipeFromDb.setInstructions(recipeDetails.getInstructions());
         recipeFromDb.setNumberOfServing(recipeDetails.getNumberOfServing());
         recipeFromDb.setIngredients(recipeDetails.getIngredients());
