@@ -14,20 +14,9 @@ import java.util.List;
 @Builder
 @Document
 public class Recipe {
-
     @Id
     private String id;
     private String instructions;
     private int numberOfServing;
     private List<Ingredient> ingredients;
-
-    public boolean isVegetarian() {
-        Ingredient optionalIngredient = ingredients.stream().filter(ingredient -> ingredient.isVegetarian == false).findAny().orElse(null);
-        if (optionalIngredient != null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
 }
