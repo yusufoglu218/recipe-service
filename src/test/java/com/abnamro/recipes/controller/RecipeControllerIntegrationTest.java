@@ -55,11 +55,11 @@ public class RecipeControllerIntegrationTest {
     @Test
     public void getRecipeByMultipleParameter_OK() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS_TO_UPDATE);
+        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS);
         parameters.put("ingredientIncluded", TestConstants.INGREDIENT_NAME);
         parameters.put("ingredientExcluded", TestConstants.INGREDIENT_NAME_EXCLUDED);
         parameters.put("isVegetarian", TestConstants.INGREDIENT_IS_VEGETARIAN_FALSE);
-        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING_TO_UPDATE);
+        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING);
         parameters.put("pageNumber", TestConstants.PAGE_NUMBER);
         parameters.put("pageSize", TestConstants.PAGE_SIZE);
 
@@ -83,11 +83,11 @@ public class RecipeControllerIntegrationTest {
     @Test
     public void getRecipeByMultipleParameter_NOT_FOUND() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS_TO_UPDATE);
+        parameters.put("instructionsLike", TestConstants.INSTRUCTIONS);
         parameters.put("ingredientIncluded", TestConstants.INGREDIENT_NAME);
         parameters.put("ingredientExcluded", TestConstants.INGREDIENT_NAME_EXCLUDED);
         parameters.put("isVegetarian", TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE);
-        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING_TO_UPDATE);
+        parameters.put("numberOfServing", TestConstants.NUMBER_OF_SERVING_TO_DELETE);
         parameters.put("pageNumber", TestConstants.PAGE_NUMBER);
         parameters.put("pageSize", TestConstants.PAGE_SIZE);
 

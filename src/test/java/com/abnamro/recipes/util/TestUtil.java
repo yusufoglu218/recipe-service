@@ -10,14 +10,16 @@ public class TestUtil {
 
     public static Recipe createMockRecipeForDelete() {
         Ingredient ingredient = Ingredient.builder().
-                name(TestConstants.INGREDIENT_NAME).
-                isVegetarian(TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE)
+                name(TestConstants.INGREDIENT_NAME)
+                .amount(TestConstants.INGREDIENT_AMOUNT)
+                .isVegetarian(TestConstants.INGREDIENT_IS_VEGETARIAN_TRUE)
                 .build();
 
         Recipe recipe = Recipe.builder()
                 .id(TestConstants.RECIPE_ID_TO_DELETE)
-                .instructions(TestConstants.INSTRUCTIONS)
-                .numberOfServing(TestConstants.NUMBER_OF_SERVING)
+                .name(TestConstants.RECIPE_NAME_TO_DELETE)
+                .instructions(TestConstants.INSTRUCTIONS_TO_DELETE)
+                .numberOfServing(TestConstants.NUMBER_OF_SERVING_TO_DELETE)
                 .ingredients(List.of(ingredient))
                 .build();
 
@@ -27,13 +29,15 @@ public class TestUtil {
     public static Recipe createMockRecipe() {
         Ingredient ingredient = Ingredient.builder()
                 .name(TestConstants.INGREDIENT_NAME)
+                .amount(TestConstants.INGREDIENT_AMOUNT)
                 .isVegetarian(TestConstants.INGREDIENT_IS_VEGETARIAN_FALSE)
                 .build();
 
         Recipe recipe = Recipe.builder()
                 .id(TestConstants.RECIPE_ID)
-                .instructions(TestConstants.INSTRUCTIONS_TO_UPDATE)
-                .numberOfServing(TestConstants.NUMBER_OF_SERVING_TO_UPDATE)
+                .name(TestConstants.RECIPE_NAME)
+                .instructions(TestConstants.INSTRUCTIONS)
+                .numberOfServing(TestConstants.NUMBER_OF_SERVING)
                 .ingredients(List.of(ingredient))
                 .build();
 
